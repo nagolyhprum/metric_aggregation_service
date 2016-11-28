@@ -3,6 +3,10 @@ import React, {
 } from "react";
 import { connect } from "react-redux";
 
+//https://github.com/fdecampredon/rx-react
+//https://github.com/reactjs/reselect
+//https://github.com/acdlite/recompose
+
 class Base extends Component {
 
   render() {
