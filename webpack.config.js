@@ -22,6 +22,9 @@ module.exports = {
       chunk : "base"
   })],
   resolve: {
-    extensions: ["", ".js", ".jsx"]
+    extensions: ["", ".js", ".jsx"],
+    alias : {
+      reducers : "src/jsx/reducers"
+    }
   }
 };
