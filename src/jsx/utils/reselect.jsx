@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 import { Subject } from "rx";
 
-const withoutProps = (...inputs) => {
+const withState = (...inputs) => {
   const subject$ = new Subject();
   const selector = createSelector(inputs, input => {
     setTimeout(() => {
@@ -12,7 +12,7 @@ const withoutProps = (...inputs) => {
   return () => selector;
 };
 
-const withProps = (...inputs) => () => withoutProps(...inputs)();
+const withProps = (...inputs) => () => withState(...inputs)();
 
 const mapStateToProps = observables => {
   observables = Object.keys(observables).reduce((map, key) => ({
@@ -29,7 +29,7 @@ const base = state => state.getIn(["base", "value"]);
 const index = (state, props) => props.index;
 
 export default {
-  base : withoutProps(base),
+  base : withState(base),
   index : withProps(index),
   mapStateToProps
 };
