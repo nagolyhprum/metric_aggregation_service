@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Base from "../components/base";
 import { createStore } from "redux"
 import { combineReducers } from "redux-immutable";
 import reducers from "../reducers/index";
-import Base from "../components/base";
 import { Map } from "immutable";
 import { Provider } from "react-redux";
 

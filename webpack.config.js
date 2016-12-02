@@ -14,8 +14,16 @@ module.exports = {
       exclude: /node_modules/,
       loader: "babel-loader",
       query: {
-        presets: ["es2015", "stage-0", "react"]
+        presets: ["es2015", "stage-0", "react"],
+        env : {
+          test : {
+            plugins : ["istanbul"]
+          }
+        }
       }
+    }, {
+      test: /\.json$/,
+      loader: "json-loader"
     }]
   },
   plugins: [new HtmlWebpackPlugin({
@@ -26,7 +34,8 @@ module.exports = {
     extensions: ["", ".js", ".jsx"],
     alias : {
       reducers : dir + "reducers",
-      utils : dir + "utils"
+      utils : dir + "utils",
+      components : dir + "components",
     }
   }
 };

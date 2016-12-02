@@ -21,7 +21,7 @@ const mapStateToProps = observables => {
   }), {});
   return (state, props) => Object.keys(observables).reduce((map, key) => ({
     ...map,
-    [key] : observables[key](state, props)
+    [key] : props[key] || observables[key](state, props)
   }), {});
 };
 
