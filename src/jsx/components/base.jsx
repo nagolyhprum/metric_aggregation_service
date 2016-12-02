@@ -2,22 +2,24 @@ import React, {
   Component
 } from "react";
 import { connect } from "react-redux";
+import { pure } from "recompose";
+import reselect from "utils/reselect";
+import { dom } from "react-reactive-class";
+const { div : Div } = dom;
+const {
+  base,
+  index,
+  mapStateToProps
+} = reselect;
 
-//https://github.com/fdecampredon/rx-react
-//https://github.com/reactjs/reselect
-//https://github.com/acdlite/recompose
+const Base = pure(props =>
+  <div>
+    <Div>{props.base}</Div>
+    <Div>{props.index}</Div>
+  </div>
+);
 
-class Base extends Component {
-
-  render() {
-    console.log(this.props);
-    return <div>{this.props.base}</div>;
-  }
-
-}
-
-export default connect(state => {
-  return {
-    base : state.getIn(["base", "value"])
-  };
-})(Base);
+export default connect(mapStateToProps({
+  base,
+  index
+}))(Base);
