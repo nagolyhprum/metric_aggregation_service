@@ -9,7 +9,6 @@
     "react-dom": "^15.4.1",
     "react-reactive-class": "^1.0.3",
     "react-redux": "^4.4.6",
-    "recompose": "^0.20.2",
     "redux": "^3.6.0",
     "redux-immutable": "^3.0.8",
     "reselect": "^2.5.4",
