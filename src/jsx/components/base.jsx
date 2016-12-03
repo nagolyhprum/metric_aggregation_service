@@ -28,7 +28,7 @@ const Base = props => {
       <Div>{props.index}</Div>
     </div>
   );
-}
+};
 
 export default connect(mapStateToProps({
   base,
