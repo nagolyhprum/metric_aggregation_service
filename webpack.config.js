@@ -37,5 +37,10 @@ module.exports = {
       utils : dir + "utils",
       components : dir + "components",
     }
+  },
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true
   }
 };

@@ -1,12 +1,10 @@
 import { createSelector } from "reselect";
-import { Subject } from "rx";
+import { BehaviorSubject } from "rx";
 
 const withState = (...inputs) => {
-  const subject$ = new Subject();
+  const subject$ = new BehaviorSubject();
   const selector = createSelector(inputs, input => {
-    setTimeout(() => {
-      subject$.onNext(input);
-    });
+    subject$.onNext(input);
     return subject$;
   });
   return () => selector;
