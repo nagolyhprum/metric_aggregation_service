@@ -15,12 +15,6 @@ import {
 } from "actions/base";
 
 describe("Base", () => {
-  it("should be empty", () => {
-    const result = mount(<Base store={MockStore()}/>);
-    const divs = result.find("div").at(0).children();
-    expect(divs.at(0).text()).to.be.equal("");
-    expect(divs.at(1).text()).to.be.equal("");
-  });
   it("should show hello world and 1", () => {
     const result = mount(<Base
       store={MockStore()}
