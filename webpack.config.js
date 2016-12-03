@@ -36,6 +36,8 @@ module.exports = {
       reducers : dir + "reducers",
       utils : dir + "utils",
       components : dir + "components",
+      actions : dir + "actions",
+      apps : dir + "apps"
     }
   },
   externals: {

@@ -1,6 +1,6 @@
 {
-  "nyc" : {
-    "exclude" : [
+  "nyc": {
+    "exclude": [
       "**/*.js"
     ]
   },
@@ -35,12 +35,13 @@
     "mocha-webpack": "^0.7.0",
     "nyc": "^10.0.0",
     "react-addons-test-utils": "^15.4.1",
+    "redux-mock-store": "^1.2.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npm test",
-    "test": "mocha-webpack --webpack-config webpack.config.js \"test/**/*.jsx\"",
+    "test": "mocha-webpack -r dom.js --webpack-config webpack.config.js \"test/**/*.jsx\"",
     "webpack": "webpack",
     "server": "webpack-dev-server --content-base public --hot --inline",
     "start": "npm run webpack & npm run server"

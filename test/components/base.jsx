@@ -1,36 +1,41 @@
-import Base from "components/base";
-
-//LOCAL
+import configureMockStore from "redux-mock-store"
 import { BehaviorSubject } from "rx";
-import { createStore } from "redux"
-import { combineReducers } from "redux-immutable";
-import reducers from "reducers/index";
-const initialState = Map();
-const rootReducer = combineReducers(reducers);
-
-//GLOBALS
+import { createStore } from "redux";
 import { Map, List } from "immutable";
 import { expect } from "chai";
 import React from "react";
-import { render } from "enzyme";
-const store = createStore(rootReducer, initialState);
+import { mount } from "enzyme";
+
+const MockStore = (state = Map()) => configureMockStore([])(state);
 const Value = input => new BehaviorSubject(input);
+
+import Base from "components/base";
+import {
+  setBaseValue
+} from "actions/base";
 
 describe("Base", () => {
   it("should be empty", () => {
-    const result = render(<Base store={store}/>);
-    const divs = result.find("div > div");
-    expect(divs[0].children[0].data).to.be.equal("Hello World");
-    expect(divs[1].children).to.have.length(0);
+    const result = mount(<Base store={MockStore()}/>);
+    const divs = result.find("div").at(0).children();
+    expect(divs.at(0).text()).to.be.equal("");
+    expect(divs.at(1).text()).to.be.equal("");
   });
   it("should show hello world and 1", () => {
-    const result = render(<Base
-      store={store}
-      index={Value("Hello World")}
-      base={Value(1)}
+    const result = mount(<Base
+      store={MockStore()}
+      base={Value("Goodbye World")}
+      index={Value(1)}
     />);
-    const divs = result.find("div > div");
-    expect(divs[0].children[0].data).to.be.equal("1");
-    expect(divs[1].children[0].data).to.be.equal("Hello World");
+    const divs = result.find("div").at(0).children();
+    expect(divs.at(0).text()).to.be.equal("Goodbye World");
+    expect(divs.at(1).text()).to.be.equal("1");
+  });
+  it("has a click event", () => {
+    const store = MockStore();
+    const result = mount(<Base store={store}/>);
+    result.find("div").at(0).simulate("click");
+    expect(store.getActions()).to.have.length(1);
+    expect(store.getActions()[0]).to.be.deep.equal(setBaseValue(1));
   });
 });

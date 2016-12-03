@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rx";
 const withState = (...inputs) => {
   const subject$ = new BehaviorSubject();
   const selector = createSelector(inputs, input => {
-    subject$.onNext(input);
+    setTimeout(() => subject$.onNext(input));
     return subject$;
   });
   return () => selector;

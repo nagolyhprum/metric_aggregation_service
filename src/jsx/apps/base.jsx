@@ -16,7 +16,10 @@ document.body.appendChild(div);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Base index={1}></Base>
+    <div>
+      <Base index={1}></Base>
+      <Base index={2}></Base>
+    </div>
   </Provider>,
   div
 );
