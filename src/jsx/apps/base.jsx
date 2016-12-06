@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Base from "../components/base";
+import MetricClient from "components/metricClient";
 import { createStore } from "redux";
 import { combineReducers } from "redux-immutable";
 import reducers from "../reducers/index";
@@ -16,10 +16,7 @@ document.body.appendChild(div);
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <Base index={1}></Base>
-      <Base index={2}></Base>
-    </div>
+    <MetricClient/>
   </Provider>,
   div
 );
