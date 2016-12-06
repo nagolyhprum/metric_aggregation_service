@@ -1,5 +1,6 @@
 const {
-  named
+  named,
+  data
 } = require("./constants");
 
 const EMPTY_ARRAY = [];
@@ -13,14 +14,24 @@ class Metrics {
       const r = this.metrics[metric.metric] = this.metrics[metric.metric] || [];
       r.push({
         date : metric.date,
-        data : 1
+        value : 1
       });
       return true;
     }
+    if(data[metric.metric]) {
+      const r = this.metrics[metric.metric] = this.metrics[metric.metric] || [];
+      if(!isNaN(metric.value) && metric.value > 0) {
+        r.push({
+          date : metric.date,
+          value : metric.value
+        });
+        return true;
+      }
+    }
     return false;
   }
-  get(metric, start, end) {
-    return (this.metrics[metric] || EMPTY_ARRAY);
+  get(args) {
+    return (this.metrics[args.metric] || EMPTY_ARRAY);
   }
 }
 
