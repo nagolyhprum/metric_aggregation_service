@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import Metrics from "../private/metrics";
-import { named, data} from "../private/constants";
+import { named, data, MINUTE } from "../private/constants";
 const {
   ERROR_METRIC,
   CLICK_METRIC
@@ -24,7 +24,7 @@ describe("metrics", () => {
     const result = metrics.get({
       metric : "DNE_METRIC"
     });
-    expect(result).to.have.length(0);
+    expect(result).to.be.deep.equal({});
   });
   it("can add a named metric", () => {
     const metrics = new Metrics();
@@ -37,13 +37,13 @@ describe("metrics", () => {
       metric : ERROR_METRIC
     });
     expect(post).to.be.equal(true);
-    expect(get).to.have.length(1);
-    expect(get[0]).to.be.deep.equal({
-      date,
-      value : 1
+    expect(get).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : 1
+      }
     })
   });
-  it("named metrics cannot alter their data", () => {
+  it("named metrics cannot alter their value", () => {
     const metrics = new Metrics();
     const date = new Date().getTime();
     metrics.post({
@@ -54,9 +54,10 @@ describe("metrics", () => {
     const get = metrics.get({
       metric : ERROR_METRIC
     });
-    expect(get[0]).to.be.deep.equal({
-      date,
-      value : 1
+    expect(get).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : 1
+      }
     });
   });
   it("data metrics require positive data", () => {
@@ -88,10 +89,13 @@ describe("metrics", () => {
     expect(b).to.be.equal(false);
     expect(c).to.be.equal(false);
     expect(d).to.be.equal(true);
-    expect(get).to.have.length(1);
-    expect(get[0]).to.be.deep.equal({
-      date,
-      value : 5
-    })
+    expect(get).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : 5,
+        average : 5,
+        min : 5,
+        max : 5
+      }
+    });
   });
 });
