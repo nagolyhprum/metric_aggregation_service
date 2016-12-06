@@ -1,5 +1,5 @@
-import Base from "reducers/base";
+import client from "reducers/client";
 
 export default {
-  base : Base
+  client
 };

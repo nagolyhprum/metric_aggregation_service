@@ -2,7 +2,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var dir = __dirname + "\\src\\jsx\\";
 module.exports = {
   entry: {
-      base : ".\\src\\jsx\\apps\\base.jsx"
+      base : ".\\src\\jsx\\apps\\metricClientApp.jsx"
   },
   output: {
     filename: "[name]/index.js",
@@ -28,7 +28,7 @@ module.exports = {
   },
   plugins: [new HtmlWebpackPlugin({
       filename: "index.html",
-      chunk : "base"
+      chunk : "metric_client_app"
   })],
   resolve: {
     extensions: ["", ".js", ".jsx"],
