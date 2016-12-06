@@ -45,6 +45,7 @@
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npm test",
     "test": "mocha-webpack -r dom.js --webpack-config webpack.config.js \"test/**/*.jsx\"",
+    "watch": "webpack --watch --colors",
     "webpack": "webpack",
     "server": "webpack-dev-server --content-base public --hot --inline",
     "start": "npm run webpack & npm run server"

@@ -1,6 +1,5 @@
-export const SET_BASE_VALUE = "SET_BASE_VALUE";
+export const ADD_CLIENT = "ADD_CLIENT";
 
-export const setBaseValue = value => ({
-  type : SET_BASE_VALUE,
-  value
+export const addClient = value => ({
+  type : ADD_CLIENT
 });

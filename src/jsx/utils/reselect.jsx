@@ -21,11 +21,9 @@ const mapStateToProps = observables => {
   }), {});
 };
 
-const base = state => state.getIn(["base", "value"]);
-const index = (state, props) => props.index;
+const clients = state => state.getIn(["client", "list"]);
 
 export default {
-  base : withState(base),
-  index : withProps(index),
+  clients : withState(clients),
   mapStateToProps
 };
