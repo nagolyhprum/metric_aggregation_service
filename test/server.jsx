@@ -26,7 +26,7 @@ describe("metrics", () => {
   });
   it("can add a named metric", () => {
     const metrics = new Metrics();
-    const date = new Date();
+    const date = new Date().getTime();
     const post = metrics.post({
       metric : ERROR_METRIC,
       date
@@ -34,6 +34,20 @@ describe("metrics", () => {
     const get = metrics.get(ERROR_METRIC);
     expect(post).to.be.equal(true);
     expect(get).to.have.length(1);
+    expect(get[0]).to.be.deep.equal({
+      date,
+      data : 1
+    })
+  });
+  it("named metrics cannot alter their data", () => {
+    const metrics = new Metrics();
+    const date = new Date().getTime();
+    metrics.post({
+      metric : ERROR_METRIC,
+      date,
+      data : 50
+    });
+    const get = metrics.get(ERROR_METRIC);
     expect(get[0]).to.be.deep.equal({
       date,
       data : 1
