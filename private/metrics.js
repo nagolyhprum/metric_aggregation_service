@@ -10,20 +10,13 @@ class Metrics {
     this.metrics = {};
   }
   post(metric) {
-    if(named[metric.metric]) {
+    if(data[metric.metric] || named[metric.metric]) {
+      const value = data[metric.metric] ? metric.value : 1;
       const r = this.metrics[metric.metric] = this.metrics[metric.metric] || [];
-      r.push({
-        date : metric.date,
-        value : 1
-      });
-      return true;
-    }
-    if(data[metric.metric]) {
-      const r = this.metrics[metric.metric] = this.metrics[metric.metric] || [];
-      if(!isNaN(metric.value) && metric.value > 0) {
+      if(!isNaN(value) && value > 0) {
         r.push({
           date : metric.date,
-          value : metric.value
+          value
         });
         return true;
       }
