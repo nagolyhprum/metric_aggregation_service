@@ -153,4 +153,30 @@ describe("metrics", () => {
       }
     });
   });
+  it("can omit filters", () => {
+    const metrics = new Metrics();
+    const date = new Date().getTime();
+    metrics.post({
+      metric : ERROR_METRIC,
+      date
+    });
+    const from = metrics.get({
+      metric : ERROR_METRIC,
+      from : date + 1
+    });
+    const to = metrics.get({
+      metric : ERROR_METRIC,
+      to : date
+    });
+    const get = metrics.get({
+      metric : ERROR_METRIC
+    });
+    expect(from).to.be.deep.equal({});
+    expect(to).to.be.deep.equal({});
+    expect(get).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : 1
+      }
+    })
+  });
 });

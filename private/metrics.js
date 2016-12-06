@@ -27,12 +27,15 @@ class Metrics {
     }
     return false;
   }
+  /*
+  from - inclusive
+  to - exclusive
+  */
   get(args) {
     const r = this.metrics[args.metric] = this.metrics[args.metric] || [];
     const result = r.filter(metric => {
-      return true;
+      return (!args.from || args.from <= metric.date) && (!args.to || metric.date < args.to);
     }).reduce((result, metric) => {
-
       const minute = result[Math.floor(metric.date / MINUTE)] || {
         sum : 0,
         min : metric.value,
@@ -46,11 +49,8 @@ class Metrics {
       }
       minute.sum += metric.value;
       ++minute.count;
-
       result[Metrics.getIndex(metric.date)] = minute;
-
       return result;
-
     }, {});
     if(data[args.metric]) {
       Object.keys(result).forEach(key => {
