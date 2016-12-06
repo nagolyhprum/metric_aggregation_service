@@ -98,6 +98,14 @@ describe("metrics", () => {
       }
     });
   });
+  it("date is required", () => {
+    const metrics = new Metrics();
+    const result = metrics.post({
+      metric : LATENCY_METRIC,
+      value : 5
+    });
+    expect(result).to.be.equal(false)
+  });
   it("can add multiple metrics", () => {
     const metrics = new Metrics();
     const length = 10;

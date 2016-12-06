@@ -14,7 +14,7 @@ class Metrics {
     return Math.floor(date / MINUTE);
   }
   post(metric) {
-    if(data[metric.metric] || named[metric.metric]) {
+    if(metric.date && (data[metric.metric] || named[metric.metric])) {
       const value = data[metric.metric] ? metric.value : 1;
       const r = this.metrics[metric.metric] = this.metrics[metric.metric] || [];
       if(!isNaN(value) && value > 0) {
