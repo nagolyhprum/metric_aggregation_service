@@ -122,15 +122,29 @@ describe("metrics", () => {
         value : i + 1,
         date
       });
+      metrics.post({
+        metric : DISK_METRIC,
+        value : length - i,
+        date
+      });
     });
     const name = metrics.get({ metric : ERROR_METRIC });
-    const data = metrics.get({ metric : LATENCY_METRIC });
+    const increasing = metrics.get({ metric : LATENCY_METRIC });
+    const descreasing = metrics.get({ metric : DISK_METRIC });
     expect(name).to.be.deep.equal({
       [Metrics.getIndex(date)] : {
         sum : length
       }
     });
-    expect(data).to.be.deep.equal({
+    expect(increasing).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : total,
+        max : length,
+        min : 1,
+        average : total / length
+      }
+    });
+    expect(descreasing).to.be.deep.equal({
       [Metrics.getIndex(date)] : {
         sum : total,
         max : length,
