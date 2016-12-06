@@ -6,11 +6,27 @@ app.use(express.static(__dirname + "/public"));
 
 const metrics = new Metrics();
 
+let status = "live"; // or dead
+app.post("status/:status", (req, res) => {
+  status = req.param.status;
+});
+
+const die = res => {
+  if(status !== "live") {
+    res.send({ error : "service not available" })
+    return true;
+  }
+};
+
 app.post("/metric", (req, res) => {
-  res.send(metrics.postMany(req.body));
+  if(die()) return;
+  res.send({
+    data : metrics.postMany(req.body)
+  });
 });
 
 app.get("/metric", (req, res) => {
+  if(die()) return;
   res.send({
     data : metrics.get(req.body)
   });
