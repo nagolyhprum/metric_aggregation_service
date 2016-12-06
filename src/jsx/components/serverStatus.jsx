@@ -2,6 +2,7 @@ import React from "react";
 import { BehaviorSubject } from "rx";
 import { dom } from "react-reactive-class";
 const { div : Div } = dom;
+import axios from "axios";
 
 const Style = {
   width : 100,
@@ -24,6 +25,10 @@ const DeadStyle = {
   ...Style
 };
 
+const updateStatus = bool => {
+  return axios.post(`status/${bool ? "live" : "dead"}`);
+}
+
 const ServerStatus = props => {
 
   const status$ = new BehaviorSubject();
@@ -35,6 +40,7 @@ const ServerStatus = props => {
   status$.onNext(last);
   setInterval(() => {
     last = !last;
+    updateStatus(last);
     status$.onNext(last);
   }, 5000);
 

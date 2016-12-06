@@ -7,8 +7,9 @@ app.use(express.static(__dirname + "/public"));
 const metrics = new Metrics();
 
 let status = "live"; // or dead
-app.post("status/:status", (req, res) => {
-  status = req.param.status;
+app.post("/status/:status", (req, res) => {
+  status = req.params.status;
+  res.send({ data : status });
 });
 
 const die = res => {
