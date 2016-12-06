@@ -24,4 +24,19 @@ describe("metrics", () => {
     const result = metrics.get();
     expect(result).to.have.length(0);
   });
+  it("can add a named metric", () => {
+    const metrics = new Metrics();
+    const date = new Date();
+    const post = metrics.post({
+      metric : ERROR_METRIC,
+      date
+    });
+    const get = metrics.get(ERROR_METRIC);
+    expect(post).to.be.equal(true);
+    expect(get).to.have.length(1);
+    expect(get[0]).to.be.deep.equal({
+      date,
+      data : 1
+    })
+  });
 });
