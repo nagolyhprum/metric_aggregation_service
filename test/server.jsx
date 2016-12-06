@@ -81,9 +81,17 @@ describe("metrics", () => {
       date,
       value : 5
     });
+    const get = metrics.get({
+      metric : LATENCY_METRIC
+    });
     expect(a).to.be.equal(false);
     expect(b).to.be.equal(false);
     expect(c).to.be.equal(false);
     expect(d).to.be.equal(true);
+    expect(get).to.have.length(1);
+    expect(get[0]).to.be.deep.equal({
+      date,
+      value : 5
+    })
   });
 });
