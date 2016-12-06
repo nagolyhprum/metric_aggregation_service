@@ -98,4 +98,37 @@ describe("metrics", () => {
       }
     });
   });
+  it("can add multiple metrics", () => {
+    const metrics = new Metrics();
+    const length = 10;
+    const total = (length * (length + 1)) / 2;
+    const date = new Date().getTime();
+    Array.from({length}).forEach((_, i) => {
+      metrics.post({
+        metric : ERROR_METRIC,
+        value : i + 1,
+        date
+      });
+      metrics.post({
+        metric : LATENCY_METRIC,
+        value : i + 1,
+        date
+      });
+    });
+    const name = metrics.get({ metric : ERROR_METRIC });
+    const data = metrics.get({ metric : LATENCY_METRIC });
+    expect(name).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : length
+      }
+    });
+    expect(data).to.be.deep.equal({
+      [Metrics.getIndex(date)] : {
+        sum : total,
+        max : length,
+        min : 1,
+        average : total / length
+      }
+    });
+  });
 });

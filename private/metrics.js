@@ -39,6 +39,11 @@ class Metrics {
         max : metric.value,
         count : 0
       };
+      if(metric.value > minute.max) {
+        minute.max = metric.value;
+      } else if(metric.value < minute.min) {
+        minute.min = metric.min;
+      }
       minute.sum += metric.value;
       ++minute.count;
 
