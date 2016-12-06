@@ -13,6 +13,9 @@ class Metrics {
   static getIndex(date) {
     return Math.floor(date / MINUTE);
   }
+  postMany(metrics) {
+    return (metrics || []).map(item => this.post(item));
+  }
   post(metric) {
     if(metric.date && (data[metric.metric] || named[metric.metric])) {
       const value = data[metric.metric] ? metric.value : 1;

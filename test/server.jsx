@@ -179,4 +179,15 @@ describe("metrics", () => {
       }
     })
   });
+  it("can post many or none", () => {
+    const metrics = new Metrics();
+    const date = new Date().getTime();
+    const many = metrics.postMany([{
+      metric : ERROR_METRIC,
+      date
+    }, {}]);
+    const none = metrics.postMany();
+    expect(many).to.be.deep.equal([true, false]);
+    expect(none).to.be.deep.equal([]);
+  });
 });

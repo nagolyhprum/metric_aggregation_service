@@ -4,12 +4,16 @@ const Metrics = require("./private/metrics");
 
 app.use(express.static(__dirname + "/public"));
 
+const metrics = new Metrics();
+
 app.post("/metric", (req, res) => {
-  res.send("Not implemented yet.");
+  res.send(metrics.postMany(req.body));
 });
 
 app.get("/metric", (req, res) => {
-  res.send("Not implemented yet.");
+  res.send({
+    data : metrics.get(req.body)
+  });
 });
 
 app.listen(80, () => {
