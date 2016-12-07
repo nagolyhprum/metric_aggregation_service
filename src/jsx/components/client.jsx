@@ -2,6 +2,11 @@ import React, {
   Component
 } from "react";
 import { connect } from "react-redux";
+import reselect from "utils/reselect";
+const {
+  mapStateToProps,
+  client
+} = reselect;
 
 import { dom } from "react-reactive-class";
 const { span : Span } = dom;
@@ -33,7 +38,7 @@ class Client extends Component {
   }
   start() {
     this.timeout = setTimeout(() => {
-      this.props.dispatch(metrics[Math.floor(metrics.length * Math.random())](this.props.client, Math.random() * 999 + 1));
+      this.props.dispatch(metrics[Math.floor(metrics.length * Math.random())](this.props.client.getValue(), Math.random() * 999 + 1));
       this.start();
     }, 100 + Math.random() * 900);
   }
@@ -42,15 +47,21 @@ class Client extends Component {
   }
   render() {
     const { client } = this.props;
+    const $error = client.map(client => client && client.get("error"));
+    const $click = client.map(client => client && client.get("click"));
+    const $latency = client.map(client => client && client.get("latency"));
+    const $disk = client.map(client => client && client.get("disk"));
     return (
       <div style={ClientStyle}>
-        <div>errors : {client.get("error")}</div>
-        <div>clicks : {client.get("click")}</div>
-        <div>latency : {client.get("latency")}</div>
-        <div>disk : {client.get("disk")}</div>
+        <div>errors : <Span>{$error}</Span></div>
+        <div>clicks : <Span>{$click}</Span></div>
+        <div>latency : <Span>{$latency}</Span></div>
+        <div>disk : <Span>{$disk}</Span></div>
       </div>
     );
   }
 }
 
-export default connect()(Client);
+export default connect(mapStateToProps({
+  client
+}))(Client);

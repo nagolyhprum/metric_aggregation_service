@@ -16,7 +16,7 @@ const ClientList = props => {
   return (
     <div>
       <div onClick={props.addClient}>Add</div>
-      <Div>{props.clients.map(clients => clients && clients.map(client => <Client client={client}/>))}</Div>
+      <Div>{props.clients.map(clients => clients && clients.map((_, i) => <Client index={i}/>))}</Div>
     </div>
   );
 };
