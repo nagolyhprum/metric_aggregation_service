@@ -29,6 +29,8 @@ const updateStatus = bool => {
   return axios.post(`status/${bool ? "live" : "dead"}`);
 }
 
+updateStatus(true);
+
 const ServerStatus = props => {
 
   const status$ = new BehaviorSubject();

@@ -42,14 +42,14 @@ class Client extends Component {
     this.start();
   }
   start() {
+    const setStalled = () => this.stalled$.onNext(this.metrics.metrics.length);
     this.timeout = setTimeout(() => {
       const metric = metrics[Math.floor(metrics.length * Math.random())](this.props.client.getValue(), Math.random() * 999 + 1);
       this.props.dispatch(metric);
       this.metrics.post({
         metric : metric.type,
         value : metric.value
-      }).then(() => this.stalled$.onNext(this.metrics.metrics.length), () => this.stalled$.onNext(this.metrics.metrics.length));
-      ;
+      }).then(setStalled, setStalled);
       this.start();
     }, 100 + Math.random() * 900);
   }
