@@ -12,12 +12,18 @@ const Value = input => new BehaviorSubject(input);
 import Metics from "utils/metrics";
 
 const testFulfiller = value => input => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       if(typeof value === "function") value = value(input);
-      resolve({
-        data : value
-      });
+      if(value instanceof Error) {
+        reject({
+          error : value
+        });
+      } else {
+        resolve({
+          data : value
+        });
+      }
     }, 10);
   });
 };
@@ -27,7 +33,7 @@ describe("metrics", () => {
     const test = { a : "b" };
     const metrics = new Metics(testFulfiller(test));
     metrics.get().then(data => {
-      expect(data.data).to.be.equal(test);
+      expect(data).to.be.equal(test);
       done();
     });
   });
@@ -35,7 +41,18 @@ describe("metrics", () => {
     const test = { a : "b" };
     const metrics = new Metics(testFulfiller(test));
     metrics.post().then(data => {
-      expect(data.data).to.be.equal(test);
+      expect(data).to.be.equal(test);
+      done();
+    });
+  });
+  it("handle rejection", done => {
+    const test = new Error();
+    const metrics = new Metics(testFulfiller(test));
+    metrics.post().then(_ => _, error => {
+      expect(error).to.be.equal(test);
+    });
+    metrics.post().then(_ => _, error => {
+      expect(error).to.be.equal(test);
       done();
     });
   });

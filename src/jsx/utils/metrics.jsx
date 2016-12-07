@@ -20,17 +20,18 @@ class Metrics {
       self.metrics = self.metrics.slice(data.data.length);
       self.locked.shift(); //unlock
       self.locked[0] && self.locked[0](); //or process next
-      return data;
+      return data.data;
     }, error => {
       self.locked.shift(); //unlock
       self.locked[0] && self.locked[0](); //or process next
+      return Promise.reject(error.error);
     });
 
     return promise;
   }
 
   get(data) {
-    return this.fulfiller("get", data);
+    return this.fulfiller("get", data).then(data => data.data);
   }
 }
 
