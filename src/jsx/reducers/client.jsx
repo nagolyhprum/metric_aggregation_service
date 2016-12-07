@@ -25,7 +25,7 @@ const CLIENT = Map({
 });
 
 const INITIAL_STATE = Map({
-  list : List.of(...Array.from({ length : 1 }).map(_ => CLIENT))
+  list : List.of(...Array.from({ length : 100 }).map(_ => CLIENT))
 });
 
 export default function(state = INITIAL_STATE, action = {}) {

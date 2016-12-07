@@ -13,7 +13,7 @@ const Style = {
   display : "inline-block",
   textTransform : "uppercase",
   transition : "background 0.25s"
-}
+};
 
 const LiveStyle = {
   background : "green",

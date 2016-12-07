@@ -8,7 +8,7 @@ const {
   client
 } = reselect;
 import Metrics from "utils/metrics";
-import axios from "axios";
+import fulfiller from "utils/metricsPromise";
 
 import { dom } from "react-reactive-class";
 const { span : Span } = dom;
@@ -30,10 +30,6 @@ const ClientStyle = {
   borderRadius : 10,
   display : "inline-block",
   padding : 10
-};
-
-const fulfiller = (method, data) => {
-  return axios[method]("/metric", data).then(config => config.data);
 };
 
 class Client extends Component {
