@@ -8,6 +8,7 @@ const {
   client
 } = reselect;
 import Metrics from "utils/metrics";
+import axios from "axios";
 
 import { dom } from "react-reactive-class";
 const { span : Span } = dom;
@@ -18,6 +19,7 @@ import {
   addLatency,
   addDisk
 } from "actions/client";
+import { BehaviorSubject } from "rx";
 
 const metrics = [addError, addClick, addLatency, addDisk];
 
@@ -36,6 +38,7 @@ class Client extends Component {
   constructor(props) {
     super(props);
     this.metrics = new Metrics(fulfiller);
+    this.stalled$ = new BehaviorSubject();
   }
   componentWillMount() {
     this.start();
@@ -47,7 +50,8 @@ class Client extends Component {
       this.metrics.post({
         metric : metric.type,
         value : metric.value
-      })
+      });
+      this.stalled$.onNext(this.metrics.metrics.length);
       this.start();
     }, 100 + Math.random() * 900);
   }
@@ -66,6 +70,7 @@ class Client extends Component {
         <div>clicks : <Span>{$click}</Span></div>
         <div>latency : <Span>{$latency}</Span></div>
         <div>disk : <Span>{$disk}</Span></div>
+        <div>stalled : <Span>{this.stalled$}</Span></div>
       </div>
     );
   }
