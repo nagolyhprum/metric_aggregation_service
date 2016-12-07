@@ -48,8 +48,8 @@ class Client extends Component {
       this.metrics.post({
         metric : metric.type,
         value : metric.value
-      }).catch(_ => _);
-      this.stalled$.onNext(this.metrics.metrics.length);
+      }).then(() => this.stalled$.onNext(this.metrics.metrics.length), () => this.stalled$.onNext(this.metrics.metrics.length));
+      ;
       this.start();
     }, 100 + Math.random() * 900);
   }
