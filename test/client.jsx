@@ -52,10 +52,18 @@ describe("metrics", () => {
       done();
     });
   });
-  it("errors on success as well", done => {
+  it("post errors on success as well", done => {
     const test = "dne";
     const metrics = new Metics(testFulfiller({error : test}));
     metrics.post().then(_ => _, error => {
+      expect(error).to.be.equal(test);
+      done();
+    });
+  });
+  it("get errors on success as well", done => {
+    const test = "dne";
+    const metrics = new Metics(testFulfiller({error : test}));
+    metrics.get().then(_ => _, error => {
       expect(error).to.be.equal(test);
       done();
     });
@@ -87,30 +95,3 @@ describe("metrics", () => {
     expect(metrics.metrics).to.have.length(4);
   });
 });
-
-/*
-import Base from "components/base";
-import {
-  setBaseValue
-} from "actions/base";
-
-describe("Base", () => {
-  it("should show hello world and 1", () => {
-    const result = mount(<Base
-      store={MockStore()}
-      base={Value("Goodbye World")}
-      index={Value(1)}
-    />);
-    const divs = result.find("div").at(0).children();
-    expect(divs.at(0).text()).to.be.equal("Goodbye World");
-    expect(divs.at(1).text()).to.be.equal("1");
-  });
-  it("has a click event", () => {
-    const store = MockStore();
-    const result = mount(<Base store={store}/>);
-    result.find("div").at(0).simulate("click");
-    expect(store.getActions()).to.have.length(1);
-    expect(store.getActions()[0]).to.be.deep.equal(setBaseValue(1));
-  });
-});
-*/
