@@ -17,6 +17,7 @@ class Metrics {
       }
       self.locked.push(resolve); //lock it
     }).then(() => self.fulfiller("post", self.metrics)).then(data => {
+      self.metrics = self.metrics.slice(data.data.length);
       self.locked.shift(); //unlock
       self.locked[0] && self.locked[0](); //or process next
       return data;

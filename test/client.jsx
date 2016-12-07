@@ -11,10 +11,13 @@ const Value = input => new BehaviorSubject(input);
 
 import Metics from "utils/metrics";
 
-const testFulfiller = value => () => {
+const testFulfiller = value => input => {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(value);
+      if(typeof value === "function") value = value(input);
+      resolve({
+        data : value
+      });
     }, 10);
   });
 };
@@ -24,7 +27,7 @@ describe("metrics", () => {
     const test = { a : "b" };
     const metrics = new Metics(testFulfiller(test));
     metrics.get().then(data => {
-      expect(data).to.be.equal(test);
+      expect(data.data).to.be.equal(test);
       done();
     });
   });
@@ -32,31 +35,31 @@ describe("metrics", () => {
     const test = { a : "b" };
     const metrics = new Metics(testFulfiller(test));
     metrics.post().then(data => {
-      expect(data).to.be.equal(test);
+      expect(data.data).to.be.equal(test);
       done();
     });
   });
   it("will queue posts", done => {
-    const test = { a : "b" };
-    const metrics = new Metics(testFulfiller(test));
+    const metrics = new Metics(testFulfiller(input => Array.from({length : input.length})));
     metrics.post().then(data => {
-      expect(data).to.be.equal(test);
       expect(metrics.locked).to.have.length(3);
+      expect(metrics.metrics).to.have.length(0);
     });
     metrics.post().then(data => {
-      expect(data).to.be.equal(test);
       expect(metrics.locked).to.have.length(2);
+      expect(metrics.metrics).to.have.length(0);
     });;
     metrics.post().then(data => {
-      expect(data).to.be.equal(test);
       expect(metrics.locked).to.have.length(1);
+      expect(metrics.metrics).to.have.length(0);
     });;
     metrics.post().then(data => {
-      expect(data).to.be.equal(test);
       expect(metrics.locked).to.have.length(0);
+      expect(metrics.metrics).to.have.length(0);
       done();
-    });;
+    });
     expect(metrics.locked).to.have.length(4);
+    expect(metrics.metrics).to.have.length(4);
   });
 });
 
