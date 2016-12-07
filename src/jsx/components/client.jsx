@@ -7,6 +7,7 @@ const {
   mapStateToProps,
   client
 } = reselect;
+import Metrics from "utils/metrics";
 
 import { dom } from "react-reactive-class";
 const { span : Span } = dom;
@@ -29,16 +30,24 @@ const ClientStyle = {
   padding : 10
 };
 
+const fulfiller = () => new Promise(_ => _);
+
 class Client extends Component {
   constructor(props) {
     super(props);
+    this.metrics = new Metrics(fulfiller);
   }
   componentWillMount() {
     this.start();
   }
   start() {
     this.timeout = setTimeout(() => {
-      this.props.dispatch(metrics[Math.floor(metrics.length * Math.random())](this.props.client.getValue(), Math.random() * 999 + 1));
+      const metric = metrics[Math.floor(metrics.length * Math.random())](this.props.client.getValue(), Math.random() * 999 + 1);
+      this.props.dispatch(metric);
+      this.metrics.post({
+        metric : metric.type,
+        value : metric.value
+      })
       this.start();
     }, 100 + Math.random() * 900);
   }

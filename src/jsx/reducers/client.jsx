@@ -8,8 +8,15 @@ import {
   ADD_DISK
 } from "actions/client";
 
+const CLIENT = Map({
+  error : 0,
+  click : 0,
+  latency : 0,
+  disk : 0
+});
+
 const INITIAL_STATE = Map({
-  list : List.of()
+  list : List.of(...Array.from({ length : 50 }).map(_ => CLIENT))
 });
 
 export default function(state = INITIAL_STATE, action = {}) {
