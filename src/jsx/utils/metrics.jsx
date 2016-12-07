@@ -37,7 +37,12 @@ class Metrics {
   }
 
   get(data) {
-    return this.fulfiller("get", data).then(data => data.data);
+    return this.fulfiller("get", data).then(data => {
+      if(data.error) {
+        return Promise.reject(data.error);
+      }
+      return data.data;
+    });
   }
 }
 
