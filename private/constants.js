@@ -6,4 +6,4 @@ exports.data = {
   LATENCY_METRIC : "LATENCY_METRIC",
   DISK_METRIC : "DISK_METRIC"
 };
-exports.MINUTE = 1000 * 60 * 60;
+exports.MINUTE = 1000 * 60;

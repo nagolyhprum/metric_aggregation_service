@@ -11,7 +11,7 @@ class Metrics {
 
     self.metrics.push({
       ...metric,
-      date : new Date()
+      date : new Date().getTime()
     });
 
     const promise = new Promise(resolve => {

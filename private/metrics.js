@@ -39,7 +39,7 @@ class Metrics {
     const result = r.filter(metric => {
       return (!args.from || args.from <= metric.date) && (!args.to || metric.date < args.to);
     }).reduce((result, metric) => {
-      const minute = result[Math.floor(metric.date / MINUTE)] || {
+      const minute = result[Metrics.getIndex(metric.date)] || {
         sum : 0,
         min : metric.value,
         max : metric.value,

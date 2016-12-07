@@ -22,14 +22,14 @@ const die = res => {
   }
 };
 
-app.post("/metric", (req, res) => {
+app.post("/metric/post", (req, res) => {
   if(die(res)) return;
   res.send({
     data : metrics.postMany(req.body)
   });
 });
 
-app.get("/metric", (req, res) => {
+app.post("/metric/get", (req, res) => {
   if(die(res)) return;
   res.send({
     data : metrics.get(req.body)
