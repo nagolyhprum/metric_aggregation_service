@@ -14,15 +14,11 @@ import Metics from "utils/metrics";
 const testFulfiller = value => input => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if(typeof value === "function") value = value(input);
-      if(value instanceof Error) {
-        reject({
-          error : value
-        });
+      const output = typeof value === "function" ? value(input) : value;
+      if(output instanceof Error) {
+        reject(output);
       } else {
-        resolve({
-          data : value
-        });
+        resolve(output);
       }
     }, 10);
   });
@@ -31,7 +27,7 @@ const testFulfiller = value => input => {
 describe("metrics", () => {
   it("can get", done => {
     const test = { a : "b" };
-    const metrics = new Metics(testFulfiller(test));
+    const metrics = new Metics(testFulfiller({data:test}));
     metrics.get().then(data => {
       expect(data).to.be.equal(test);
       done();
@@ -39,7 +35,7 @@ describe("metrics", () => {
   });
   it("can post", done => {
     const test = { a : "b" };
-    const metrics = new Metics(testFulfiller(test));
+    const metrics = new Metics(testFulfiller({data:test}));
     metrics.post().then(data => {
       expect(data).to.be.equal(test);
       done();
@@ -56,8 +52,20 @@ describe("metrics", () => {
       done();
     });
   });
+  it("errors on success as well", done => {
+    const test = "dne";
+    const metrics = new Metics(testFulfiller({error : test}));
+    metrics.post().then(_ => _, error => {
+      expect(error).to.be.equal(test);
+      done();
+    });
+  });
   it("will queue posts", done => {
-    const metrics = new Metics(testFulfiller(input => Array.from({length : input.length})));
+    const metrics = new Metics(testFulfiller(input => ({
+      data : Array.from({
+        length : input.length
+      })
+    })));
     metrics.post().then(data => {
       expect(metrics.locked).to.have.length(3);
       expect(metrics.metrics).to.have.length(0);

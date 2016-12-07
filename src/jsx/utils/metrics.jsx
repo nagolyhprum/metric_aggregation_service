@@ -17,6 +17,9 @@ class Metrics {
       }
       self.locked.push(resolve); //lock it
     }).then(() => self.fulfiller("post", self.metrics)).then(data => {
+      if(data.error) {
+        return Promise.reject(data.error);
+      }
       self.metrics = self.metrics.slice(data.data.length);
       self.locked.shift(); //unlock
       self.locked[0] && self.locked[0](); //or process next
@@ -24,7 +27,7 @@ class Metrics {
     }, error => {
       self.locked.shift(); //unlock
       self.locked[0] && self.locked[0](); //or process next
-      return Promise.reject(error.error);
+      return Promise.reject(error);
     });
 
     return promise;
