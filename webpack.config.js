@@ -37,7 +37,8 @@ module.exports = {
       utils : dir + "utils",
       components : dir + "components",
       actions : dir + "actions",
-      apps : dir + "apps"
+      apps : dir + "apps",
+      private : __dirname + "\\private"
     }
   },
   externals: {

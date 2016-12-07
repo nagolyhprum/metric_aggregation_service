@@ -9,7 +9,10 @@ class Metrics {
 
     const self = this;
 
-    self.metrics.push(metric);
+    self.metrics.push({
+      ...metric,
+      date : new Date()
+    });
 
     const promise = new Promise(resolve => {
       if(!self.locked.length) { //if it is not locked
@@ -17,12 +20,12 @@ class Metrics {
       }
       self.locked.push(resolve); //lock it
     }).then(() => self.fulfiller("post", self.metrics)).then(data => {
+      self.locked.shift(); //unlock
+      self.locked[0] && self.locked[0](); //or process next
       if(data.error) {
         return Promise.reject(data.error);
       }
       self.metrics = self.metrics.slice(data.data.length);
-      self.locked.shift(); //unlock
-      self.locked[0] && self.locked[0](); //or process next
       return data.data;
     }, error => {
       self.locked.shift(); //unlock

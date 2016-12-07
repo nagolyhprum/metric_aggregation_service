@@ -32,13 +32,15 @@ const ClientStyle = {
   padding : 10
 };
 
-const fulfiller = () => new Promise(_ => _);
+const fulfiller = (method, data) => {
+  return axios[method]("/metric", data).then(config => config.data);
+};
 
 class Client extends Component {
   constructor(props) {
     super(props);
     this.metrics = new Metrics(fulfiller);
-    this.stalled$ = new BehaviorSubject();
+    this.stalled$ = new BehaviorSubject(0);
   }
   componentWillMount() {
     this.start();
@@ -50,7 +52,7 @@ class Client extends Component {
       this.metrics.post({
         metric : metric.type,
         value : metric.value
-      });
+      }).catch(_ => _);
       this.stalled$.onNext(this.metrics.metrics.length);
       this.start();
     }, 100 + Math.random() * 900);

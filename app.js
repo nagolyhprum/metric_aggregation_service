@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 const Metrics = require("./private/metrics");
+var bodyParser = require('body-parser')
 
 app.use(express.static(__dirname + "/public"));
+
+app.use(bodyParser.json());
 
 const metrics = new Metrics();
 
@@ -20,14 +23,14 @@ const die = res => {
 };
 
 app.post("/metric", (req, res) => {
-  if(die()) return;
+  if(die(res)) return;
   res.send({
     data : metrics.postMany(req.body)
   });
 });
 
 app.get("/metric", (req, res) => {
-  if(die()) return;
+  if(die(res)) return;
   res.send({
     data : metrics.get(req.body)
   });

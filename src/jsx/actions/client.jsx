@@ -1,31 +1,39 @@
 export const ADD_CLIENT = "ADD_CLIENT";
-export const ADD_ERROR = "ADD_ERROR";
-export const ADD_CLICK = "ADD_CLICK";
-export const ADD_LATENCY = "ADD_LATENCY";
-export const ADD_DISK = "ADD_DISK";
+import {
+    named,
+    data
+} from "private/constants";
+const {
+  ERROR_METRIC,
+  CLICK_METRIC
+} = named;
+const {
+  LATENCY_METRIC,
+  DISK_METRIC
+} = data;
 
 export const addClient = value => ({
   type : ADD_CLIENT
 });
 
 export const addError = client => ({
-  type : ADD_ERROR,
+  type : ERROR_METRIC,
   client
 });
 
 export const addClick = client => ({
-  type : ADD_CLICK,
+  type : CLICK_METRIC,
   client
 });
 
 export const addLatency = (client, value) => ({
-  type : ADD_LATENCY,
+  type : LATENCY_METRIC,
   client,
   value
 });
 
 export const addDisk = (client, value) => ({
-  type : ADD_DISK,
+  type : DISK_METRIC,
   client,
   value
 });
